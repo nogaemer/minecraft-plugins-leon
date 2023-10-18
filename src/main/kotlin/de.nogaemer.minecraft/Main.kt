@@ -6,6 +6,5 @@ class Main: KPaper() {
 
     override fun startup() {
         Updater().update()
-        Updater().update()
     }
 }
