@@ -20,9 +20,6 @@ class Updater {
 
         deleteFile(File(Bukkit.getPluginsFolder().path + "\\update.bat"))
 
-        println(Main.instance.description.version)
-        println(jsonObject.getString("tag_name"))
-
         if (!isVersionLower(Main.instance.description.version, jsonObject.getString("tag_name")))
             return
 
@@ -35,9 +32,7 @@ class Updater {
         )
 
         runBatFile(
-            createBatFile(
-                "update.bat",
-                "@echo off \n" +
+            createBatFile("@echo off \n" +
                         batchMsg +
                         "timeout /T 5 \n" +
                         "cd ${Bukkit.getPluginsFolder().absolutePath} \n" +
@@ -88,8 +83,8 @@ class Updater {
     }
 
 
-    private fun createBatFile(batFileName: String, batFileContents: String): File {
-        val batFile = File(Bukkit.getPluginsFolder().absolutePath + "/$batFileName")
+    private fun createBatFile(batFileContents: String): File {
+        val batFile = File(Bukkit.getPluginsFolder().absolutePath + "/update.bat")
         val printWriter = PrintWriter(batFile)
 
         printWriter.println(batFileContents)
