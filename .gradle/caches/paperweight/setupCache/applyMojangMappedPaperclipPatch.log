@@ -1,2 +1,0 @@
-Command: C:\Users\Noah\.jdks\corretto-17.0.7\bin\java.exe -Dpaperclip.patchonly=true -classpath C:\Users\Noah\Documents\.Noah\Programming\Java\Leon\.gradle\caches\paperweight\setupCache\extractDevBundle.dir\data\paperclip-mojang+yarn.jar io.papermc.paperclip.Main
-Applying patches
