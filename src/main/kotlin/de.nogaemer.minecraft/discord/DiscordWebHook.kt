@@ -2,16 +2,20 @@ package de.nogaemer.minecraft.discord
 
 import org.json.JSONObject
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 class DiscordWebHook(
-    val id: String,
-    val token: String
+    id: String,
+    token: String
 ) {
     private val url = "https://discord.com/api/webhooks/$id/$token"
 
     fun sendMsg(message: String): String {
-        var msgId: String;
+        val msgId: String
 
         val connection = URL("$url?wait=true").openConnection() as HttpURLConnection
         connection.requestMethod = "POST"
@@ -19,7 +23,7 @@ class DiscordWebHook(
         connection.doOutput = true
 
         val outputStream = connection.outputStream
-        outputStream.write(message.toString().toByteArray())
+        outputStream.write(message.toByteArray())
         outputStream.flush()
         outputStream.close()
 
@@ -30,28 +34,21 @@ class DiscordWebHook(
         return msgId
     }
 
-    fun editMsg(message: String, messageId: String): Boolean {
-        var deleted: Boolean;
+    fun editMsg(messageId: String, message: String): Boolean {
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create("$url/messages/$messageId"))
+            .header("Content-Type", "application/json")
+            .method("PATCH", HttpRequest.BodyPublishers.ofString(message))
+            .build()
 
-        val connection = URL("$url/messages/$messageId").openConnection() as HttpURLConnection
-        connection.requestMethod = "PATCH"
-        connection.setRequestProperty("Content-Type", "application/json")
-        connection.doOutput = true
+        val response: HttpResponse<String> =
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
 
-        val outputStream = connection.outputStream
-        outputStream.write(message.toString().toByteArray())
-        outputStream.flush()
-        outputStream.close()
-
-        deleted = connection.responseCode == 200
-
-        connection.inputStream.close()
-        connection.disconnect()
-        return deleted
+        return response.statusCode() == 200
     }
 
     fun deleteMsg(messageId: String): Boolean {
-        var deleted: Boolean;
+        val deleted: Boolean
 
         val connection = URL("$url/messages/$messageId").openConnection() as HttpURLConnection
         connection.requestMethod = "DELETE"
