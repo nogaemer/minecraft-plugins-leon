@@ -1,5 +1,6 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.utils
 
+import de.nogaemer.minecraft.Main
 import org.bukkit.Bukkit
 import org.json.JSONObject
 import java.awt.Desktop
@@ -20,7 +21,7 @@ class Updater {
 
         deleteFile(File(Bukkit.getPluginsFolder().path + "\\update.bat"))
 
-        if (!isVersionLower(Main.instance.description.version, jsonObject.getString("tag_name")))
+        if (!isVersionLower(Main.instance.pluginMeta.version, jsonObject.getString("tag_name")))
             return
 
         downloadJarFromUrl(

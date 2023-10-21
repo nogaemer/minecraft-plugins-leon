@@ -1,10 +1,21 @@
 package de.nogaemer.minecraft.discord
 
+import de.nogaemer.minecraft.utils.CustomFileManager
+import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
 class DiscordLogMsg(
+    private val cfgFile: CustomFileManager,
     private val logFile: File
 ){
+    private val cfg: YamlConfiguration = cfgFile.cfg
+
+    init {
+        cfg.getConfigurationSection("log")
+            ?.set("lastLine", 0)
+
+        cfgFile.saveAllFiles()
+    }
 
     fun getMsgAsList(): List<String> {
         val lines = separateFile(logFile)
@@ -25,6 +36,9 @@ class DiscordLogMsg(
         return msg
     }
     private fun separateFile(file: File): List<String> {
+        val lastLine = cfg.getConfigurationSection("log")
+            ?.getInt("lastLine")
+            ?: 0
         val lines = mutableListOf<String>()
         var currentLine = ""
 
@@ -38,8 +52,22 @@ class DiscordLogMsg(
         }
 
         lines.add(currentLine)
+
+        removeFirstEntriesOfList(lines, lastLine)
+
+        cfg.getConfigurationSection("log")
+            ?.set("lastLine", lines.size + lastLine)
+        cfgFile.saveAllFiles()
+
         return lines
     }
+
+    private fun removeFirstEntriesOfList(list: MutableList<String>, count: Int) {
+        for (i in 0..<count) {
+            list.removeAt(0)
+        }
+    }
+
     private fun getMsg(msg: String, color: Int): String{
         val msg = splitStringIntoTwoParts(msg)
 

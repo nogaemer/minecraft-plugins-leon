@@ -2,6 +2,7 @@ package de.nogaemer.minecraft
 
 import de.miraculixx.kpaper.main.KPaper
 import de.nogaemer.minecraft.discord.DiscordMsgSender
+import de.nogaemer.minecraft.utils.Updater
 
 
 class Main : KPaper() {
