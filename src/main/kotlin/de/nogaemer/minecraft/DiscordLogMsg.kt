@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft.discord
+package de.nogaemer.minecraft
 
 import de.nogaemer.minecraft.utils.CustomFileManager
 import org.bukkit.configuration.file.YamlConfiguration
@@ -68,8 +68,8 @@ class DiscordLogMsg(
         }
     }
 
-    private fun getMsg(msg: String, color: Int): String{
-        val msg = splitStringIntoTwoParts(msg)
+    private fun getMsg(rawMsg: String, color: Int): String{
+        val msg = splitStringIntoTwoParts(rawMsg)
 
         return "{\n" +
                 "  \"content\": null,\n" +

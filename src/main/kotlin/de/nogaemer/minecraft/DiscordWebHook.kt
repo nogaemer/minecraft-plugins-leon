@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft.discord
+package de.nogaemer.minecraft
 
 import org.json.JSONObject
 import java.net.HttpURLConnection

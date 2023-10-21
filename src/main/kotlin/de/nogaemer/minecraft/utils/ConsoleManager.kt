@@ -1,5 +1,6 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.utils
 
+import de.nogaemer.minecraft.Main
 import org.bukkit.Bukkit
 import org.bukkit.GameRule
 import org.bukkit.Location

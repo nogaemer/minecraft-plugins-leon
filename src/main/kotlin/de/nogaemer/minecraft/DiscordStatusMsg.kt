@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft.discord
+package de.nogaemer.minecraft
 
 import de.miraculixx.kpaper.extensions.kotlin.round
 import org.bukkit.Bukkit
@@ -19,26 +19,21 @@ class DiscordStatusMsg{
                 "  \"content\": null,\n" +
                 "  \"embeds\": [\n" +
                 "    {\n" +
-                "      \"title\": \"Server Info\",\n" +
+                "      \"description\": \"# Server Info\",\n" +
                 "      \"color\": $color,\n" +
                 "      \"fields\": [\n" +
                 "        {\n" +
                 "          \"name\": \"Server Status\",\n" +
-                "          \"value\": \"$status\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"name\": \"Server Name⠀\",\n" +
-                "          \"value\": \"Leons Server\",\n" +
-                "          \"inline\": true\n" +
+                "          \"value\": \"```$status```\"\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"name\": \"Server  IP⠀\",\n" +
-                "          \"value\": \"`${getIp()}`⠀\",\n" +
+                "          \"value\": \"```${getIp()}```⠀\",\n" +
                 "          \"inline\": true\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"name\": \"Current TPS\",\n" +
-                "          \"value\": \"${if (isRunning )Bukkit.getTPS()[0].round(1) else "—"}\",\n" +
+                "          \"value\": \"```${getTps()}```\",\n" +
                 "          \"inline\": true\n" +
                 "        },\n" +
                 "        {\n" +
@@ -70,7 +65,7 @@ class DiscordStatusMsg{
     }
 
     fun getIp(): String {
-        val whatIsMyIp = URL("http://checkip.amazonaws.com")
+        val whatIsMyIp = URL("https://checkip.amazonaws.com")
         val `in` = BufferedReader(
             InputStreamReader(
                 whatIsMyIp.openStream()
@@ -78,5 +73,15 @@ class DiscordStatusMsg{
         )
 
         return `in`.readLine()
+    }
+
+    fun getTps(): String {
+        if (!isRunning) return " ——— ｜ ——— ｜ ——— "
+
+        var tps = ""
+        tps += " ${Bukkit.getTPS()[0].round(1)} ｜"
+        tps += " ${Bukkit.getTPS()[1].round(1)} ｜"
+        tps += " ${Bukkit.getTPS()[2].round(1)} "
+        return tps
     }
 }

@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft.discord
+package de.nogaemer.minecraft
 
 enum class DiscordEmbedColors(val value: Int) {
     RED(16736352),
