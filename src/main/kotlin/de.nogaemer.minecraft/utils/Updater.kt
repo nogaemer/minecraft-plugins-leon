@@ -1,5 +1,6 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.utils
 
+import de.nogaemer.minecraft.Main
 import org.bukkit.Bukkit
 import org.json.JSONObject
 import java.awt.Desktop
