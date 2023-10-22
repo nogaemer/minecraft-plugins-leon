@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.discord
 
 import de.miraculixx.kpaper.extensions.kotlin.round
 import org.bukkit.Bukkit

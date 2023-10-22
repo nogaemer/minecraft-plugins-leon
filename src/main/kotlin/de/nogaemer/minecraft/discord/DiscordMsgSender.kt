@@ -1,6 +1,7 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.discord
 
 import de.miraculixx.kpaper.event.listen
+import de.nogaemer.minecraft.Main
 import de.nogaemer.minecraft.utils.CustomFileManager
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerJoinEvent

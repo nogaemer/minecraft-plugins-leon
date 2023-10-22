@@ -1,4 +1,4 @@
-package de.nogaemer.minecraft
+package de.nogaemer.minecraft.discord
 
 import de.nogaemer.minecraft.utils.CustomFileManager
 import org.bukkit.configuration.file.YamlConfiguration
