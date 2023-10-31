@@ -27,10 +27,9 @@ class DiscordWebHook(
         outputStream.flush()
         outputStream.close()
 
-        if (connection.responseCode == 429)
-            throw Exception("Error while sending message: ${connection.responseCode} ${connection.responseMessage}\n${message}" +
-                    "\n${connection.errorStream.readBytes().toString(Charsets.UTF_8)}" +
-                    "\n${connection.headerFields}")
+        if (connection.responseCode == 429) {
+            return "false"
+        }
 
         msgId = JSONObject(connection.inputStream.readBytes().toString(Charsets.UTF_8)).getString("id")
 

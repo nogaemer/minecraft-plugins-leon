@@ -5,14 +5,19 @@ import java.io.File
 import java.io.IOException
 
 class CustomFileManager(
-    private var cfgFile: File
+    private var cfgFileFolder: File,
+    cfgFileName: String
 ) {
+    private var cfgFile: File = cfgFileFolder
     var cfg: YamlConfiguration
 
     init {
-        if (!this.cfgFile.parentFile.exists()) {
-            this.cfgFile.parentFile.mkdirs()
+        if (!this.cfgFileFolder.exists()) {
+            this.cfgFileFolder.mkdirs()
         }
+
+        cfgFile = File(cfgFileFolder, cfgFileName)
+
         if (!this.cfgFile.exists()) {
             try {
                 this.cfgFile.createNewFile()
