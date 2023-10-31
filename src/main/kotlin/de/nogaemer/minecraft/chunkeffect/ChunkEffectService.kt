@@ -1,6 +1,6 @@
 package de.nogaemer.minecraft.chunkeffect
 
-import org.bukkit.Effect
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
@@ -9,11 +9,30 @@ class ChunkEffectService(
     private val chunkEffectRepository: ChunkEffectRepository
 ) {
 
-    fun updateChunkEffects(player: Player) {
-        chunkEffectRepository.getChunkEffectsByPlayer(player).forEach { chunkEffect ->
-            player.addPotionEffect(PotionEffect(chunkEffect.effect, 100, 1))
-            player.world.playEffect(Location(chunkEffect.world, chunkEffect.x.toDouble(), 0.0, chunkEffect.z.toDouble()), Effect.MOBSPAWNER_FLAMES, 1)
+    init {
+        updateChunkEffects()
+    }
 
+    fun updateChunkEffects() {
+        Bukkit.getOnlinePlayers().forEach { player ->
+            updateChunkEffects(player, player.location)
         }
     }
+
+    fun updateChunkEffects(player: Player, location: Location) {
+        chunkEffectRepository.getChunkEffectsFromPlayer(player).forEach { chunkEffect ->
+            player.removePotionEffect(chunkEffect.effect)
+            chunkEffect.activePlayers.remove(player)
+            chunkEffectRepository.editChunkEffect(chunkEffect)
+        }
+
+
+        chunkEffectRepository.getChunkEffectsByLocation(location).forEach { chunkEffect ->
+            player.addPotionEffect(PotionEffect(chunkEffect.effect, Int.MAX_VALUE, chunkEffect.amplifier))
+            chunkEffect.activePlayers.add(player)
+            chunkEffectRepository.editChunkEffect(chunkEffect)
+        }
+    }
+
+
 }

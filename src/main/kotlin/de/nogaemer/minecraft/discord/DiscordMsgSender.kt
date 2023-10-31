@@ -12,13 +12,13 @@ import java.time.format.DateTimeFormatter
 
 class DiscordMsgSender {
 
-    private val cfgManager = CustomFileManager(File(Main.instance.dataFolder, "discord.yml"))
+    private val cfgManager = CustomFileManager(Main.instance.dataFolder, "discord.yml")
     private val cfg = cfgManager.cfg
     private val statusMsg = DiscordStatusMsg()
     private val logMsg = DiscordLogMsg(cfgManager, File("${File(".").absolutePath}\\logs\\latest.log"))
     private var statusMsgId: String? = cfg.getConfigurationSection("status")?.getString("messageId")
 
-    val logWebhook = DiscordWebHook(
+    private val logWebhook = DiscordWebHook(
         cfg.getConfigurationSection("log")?.getString("id")
             ?: throw NoSuchFieldError("Bitte füge die DiscordWebhookId in ${cfg.currentPath} hinzu"),
         cfg.getConfigurationSection("log")?.getString("token")
@@ -70,7 +70,9 @@ class DiscordMsgSender {
             val msgAsList = logMsg.getMsgAsList()
             msgAsList.forEach() { msg ->
                 Bukkit.getScheduler().runTaskLater(Main.instance, Runnable {
-                    logWebhook.sendMsg(msg)
+                    if (logWebhook.sendMsg(msg) == "false") {
+                       delay += 5
+                    }
                 }, delay.toLong() * 30)
                 delay++
             }

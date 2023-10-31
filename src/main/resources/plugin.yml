@@ -5,6 +5,12 @@ version: 1.2.0
 author: NoGaemer
 description: Für Leon
 
+commands:
+  chunk:
+    description: Zeigt die Chunkkoordinaten an
+    usage: /<command> [Effekt] [Stärke]
+    aliases: [ch]
+
 libraries:
   - "de.miraculixx:kpaper:1.1.0"
   - "org.json:json:20231013"
